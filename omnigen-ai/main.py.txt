@@ -1,0 +1,59 @@
+from fastapi import FastAPI, Form
+from fastapi.responses import HTMLResponse
+
+app = FastAPI()
+
+html_content = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OmniGen AI</title>
+    <style>
+        body {font-family: Arial; background:#0f172a; color:white; text-align:center;}
+        .box {background:#1e293b; padding:20px; margin:20px auto; width:60%; border-radius:10px;}
+        input, button {padding:10px; margin:10px;}
+        button {background:#22c55e; border:none; color:white; cursor:pointer;}
+    </style>
+</head>
+<body>
+    <h1>🚀 OmniGen AI</h1>
+    <p>All-in-One AI Video Generator</p>
+
+    <div class="box">
+        <h2>Generate AI Video</h2>
+        <form action="/generate" method="post">
+            <input type="text" name="prompt" placeholder="Enter video idea" required>
+            <br>
+            <input type="number" name="duration" placeholder="Duration (max 10 min)" max="10" required>
+            <br>
+            <button type="submit">Generate Video</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h2>Pricing</h2>
+        <p><b>Free:</b> Limited videos</p>
+        <p><b>Pro:</b> $29/month (30 videos, 10 min max, no watermark)</p>
+        <p><b>Business:</b> $79/month</p>
+    </div>
+</body>
+</html>
+"""
+
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return html_content
+
+@app.post("/generate", response_class=HTMLResponse)
+def generate(prompt: str = Form(...), duration: int = Form(...)):
+    return f"""
+    <html>
+    <body style="background:#0f172a; color:white; text-align:center;">
+        <h2>✅ Video Generation Started!</h2>
+        <p><b>Prompt:</b> {prompt}</p>
+        <p><b>Duration:</b> {duration} minutes</p>
+        <p>(This is demo version — AI engine coming soon)</p>
+        <a href="/">Go Back</a>
+    </body>
+    </html>
+    """
