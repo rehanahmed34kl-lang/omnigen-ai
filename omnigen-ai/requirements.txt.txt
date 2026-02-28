@@ -1,0 +1,3 @@
+git add main.py requirements.txt
+git commit -m "Add FastAPI code and requirements"
+git push origin main
